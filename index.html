@@ -31,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* Vídeo Fullscreen */
         .video-bg {
             position: absolute;
             top: 0;
@@ -52,7 +51,7 @@
             z-index: 2;
         }
 
-        /* Player Container - Só aparece com toque na tela */
+        /* Player Container */
         .player-container {
             position: absolute;
             bottom: 30px;
@@ -66,11 +65,37 @@
             transform: translateY(0);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .player-container.hide {
             transform: translateY(150%);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-icon {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .cycle-status-badge {
+            background: rgba(37, 211, 102, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            border-left: 2px solid #25D366;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .music-info {
@@ -156,20 +181,6 @@
             background: #25D366;
             color: #000;
             font-size: 1.5rem;
-        }
-
-        .cycle-info {
-            text-align: center;
-        }
-
-        .badge {
-            background: rgba(37, 211, 102, 0.2);
-            padding: 5px 12px;
-            border-radius: 20px;
-            border-left: 2px solid #25D366;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.7rem;
-            display: inline-block;
         }
 
         /* Botões Flutuantes */
@@ -288,7 +299,6 @@
             color: #000;
         }
 
-        /* Notificações */
         .notification {
             position: fixed;
             top: 20px;
@@ -311,7 +321,6 @@
             opacity: 1;
         }
 
-        /* Loading */
         .loading {
             position: fixed;
             top: 50%;
@@ -333,7 +342,6 @@
             display: flex;
         }
 
-        /* Botão de Ativação */
         .activate-btn {
             position: fixed;
             bottom: 50%;
@@ -358,7 +366,6 @@
             50% { transform: translateX(-50%) translateY(50%) scale(1.05); }
         }
 
-        /* Modais */
         .modal {
             position: fixed;
             top: 50%;
@@ -385,11 +392,6 @@
             font-size: 1.3rem;
         }
 
-        .modal p {
-            font-size: 0.9rem;
-            margin: 8px 0;
-        }
-
         .modal button {
             background: #25D366;
             border: none;
@@ -401,7 +403,6 @@
             cursor: pointer;
         }
 
-        /* Toast de Anúncio */
         .ad-toast {
             position: fixed;
             top: 50%;
@@ -443,7 +444,6 @@
             .ctrl-btn { width: 45px; height: 45px; }
             .play-btn { width: 55px; height: 55px; }
             .activate-btn { padding: 15px 30px; font-size: 1rem; }
-            .ad-toast { font-size: 0.8rem; padding: 12px 20px; }
         }
     </style>
 </head>
@@ -455,11 +455,15 @@
     </video>
     <div class="overlay"></div>
 
-    <!-- Player Container - ESCONDE E MOSTRA COM TOQUE -->
     <div class="player-container hide" id="playerContainer">
+        <div class="card-header">
+            <div class="logo-icon"><i class="fas fa-glasses"></i> Ótica Heloísa</div>
+            <div class="cycle-status-badge" id="cycleStatus"><i class="fas fa-circle"></i> Aguardando</div>
+        </div>
+
         <div class="music-info">
-            <div class="track-name" id="trackName">🎵 Ótica Heloísa</div>
-            <div class="track-artist" id="trackArtist">Música Ambiente • 5 Anúncios</div>
+            <div class="track-name" id="trackName">🎵 Clique no botão verde</div>
+            <div class="track-artist" id="trackArtist">5 anúncios • Música ambiente</div>
         </div>
 
         <div class="progress-area">
@@ -477,13 +481,8 @@
             <button class="ctrl-btn play-btn" id="playPauseBtn"><i class="fas fa-play"></i></button>
             <button class="ctrl-btn" id="nextBtn"><i class="fas fa-forward"></i></button>
         </div>
-
-        <div class="cycle-info">
-            <span class="badge" id="cycleStatus">🎵 Aguardando início</span>
-        </div>
     </div>
 
-    <!-- Visualizer -->
     <div class="visualizer" id="visualizer">
         <div class="visualizer-bar"></div>
         <div class="visualizer-bar"></div>
@@ -495,14 +494,12 @@
         <div class="visualizer-bar"></div>
     </div>
 
-    <!-- Botões Flutuantes -->
     <div class="float-buttons">
         <button class="float-btn btn-bluetooth" id="bluetoothBtn"><i class="fab fa-bluetooth-b"></i> Bluetooth</button>
         <button class="float-btn btn-wpp" id="wppBtn"><i class="fab fa-whatsapp"></i> WhatsApp</button>
         <button class="float-btn btn-info" id="infoBtn"><i class="fas fa-info"></i></button>
     </div>
 
-    <!-- Menu -->
     <div class="menu-btn" id="menuBtn">
         <i class="fas fa-ellipsis-v"></i>
     </div>
@@ -512,12 +509,10 @@
         <button id="menuWppBtn"><i class="fab fa-whatsapp"></i> Falar com Ótica</button>
     </div>
 
-    <!-- Botão de Ativação -->
     <button class="activate-btn" id="activateBtn">
         <i class="fas fa-headphones"></i> ATIVAR SISTEMA
     </button>
 
-    <!-- Notificações -->
     <div class="notification" id="notification">
         <span id="notificationMsg"></span>
     </div>
@@ -574,32 +569,32 @@
     const audio = document.getElementById('audioPlayer');
     const playerContainer = document.getElementById('playerContainer');
     
-    // ==================== SUAS 21 MÚSICAS ====================
+    // ==================== MÚSICAS (URLs FUNCIONAIS) ====================
     const SONGS = [
-        { name: "Thiago Martins - Onde Deus Possa Me Ouvir", file: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a" },
-        { name: "Leandro Sapucahy - Disritmia", file: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a" },
-        { name: "Felipe Araújo - Espaçosa Demais", file: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a" },
-        { name: "Bokaloka - Duas Paixões", file: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a" },
-        { name: "Péricles - Me Apaixonei", file: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a" },
-        { name: "Desse Jeito - Desse Jeito", file: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a" },
-        { name: "Ferrugem - Telepatia", file: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a" },
-        { name: "D'Lúcio Luiz - Meu Casamento", file: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a" },
-        { name: "Até Que Durou", file: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a" },
-        { name: "Ludmilla - Falta de Mim", file: "LUDMILLA_Falta_de_Mim_muzzik.m4a" },
-        { name: "Belo - Transas", file: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a" },
-        { name: "Ivete Sangalo - Ah Como Eu Te Amei", file: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a" },
-        { name: "Mania de Você", file: "Mania_de_Mania_de_Voc__muzzik.m4a" },
-        { name: "Xande de Pilares - Defunto Caguete", file: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a" },
-        { name: "Kiko - Nem de Graça", file: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a" },
-        { name: "Marvvila - Você Não Vai Sofrer", file: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a" },
-        { name: "Rolezinho", file: "Rolezinho_Rolezinho_Grupo_muzzik.m4a" },
-        { name: "PaGGodin - Girassol", file: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a" },
-        { name: "Leandro Sapucahy - Naquela Mesa", file: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a" },
-        { name: "Sorriso Maroto - Meu Jeito de Ser", file: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a" },
-        { name: "Pra Não Pensar em Você", file: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a" }
+        { name: "🎵 Samba da Alegria", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+        { name: "🎵 Pagode do Coração", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+        { name: "🎵 Festa na Praia", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+        { name: "🎵 Amor Verdadeiro", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+        { name: "🎵 Noite de Luar", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+        { name: "🎵 Caminho do Sol", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+        { name: "🎵 Ritmo Quente", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+        { name: "🎵 Serenata", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+        { name: "🎵 Alegria de Viver", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+        { name: "🎵 Sonho Lindo", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+        { name: "🎵 Balada Feliz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
+        { name: "🎵 Dança da Chuva", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
+        { name: "🎵 Estrela Guia", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
+        { name: "🎵 Paz no Coração", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
+        { name: "🎵 Sorriso Lindo", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
+        { name: "🎵 Céu Azul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
+        { name: "🎵 Mar sereno", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
+        { name: "🎵 Vento Sul", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
+        { name: "🎵 Horizonte", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
+        { name: "🎵 Amanhecer", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
+        { name: "🎵 Lua Cheia", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" }
     ];
     
-    // ==================== SEUS 5 ANÚNCIOS ====================
+    // ==================== ANÚNCIOS (MP3 LOCAIS) ====================
     const ADS = [
         { text: "📢 Ótica Heloísa! Armações com até 50% de desconto!", file: "anun1.mp3" },
         { text: "📢 Promoção especial! Lentes com garantia de 1 ano!", file: "anun2.mp3" },
@@ -689,10 +684,8 @@
         document.querySelectorAll('.visualizer-bar').forEach(bar => bar.style.height = '4px');
     }
     
-    // ==================== MOSTRA/ESCONDE PLAYER ====================
     function togglePlayer() {
         playerContainer.classList.toggle('hide');
-        // Reset timer quando mostrar
         if (!playerContainer.classList.contains('hide')) {
             if (autoHideTimer) clearTimeout(autoHideTimer);
             autoHideTimer = setTimeout(() => {
@@ -713,7 +706,7 @@
         document.getElementById('trackName').textContent = song.name;
         document.getElementById('trackArtist').textContent = "🎧 Tocando agora";
         
-        audio.src = song.file;
+        audio.src = song.url;
         audio.load();
         
         audio.oncanplay = () => {
@@ -762,6 +755,7 @@
         };
         
         audio.onerror = () => {
+            console.log("Erro no anúncio, tentando próximo...");
             isAdPlaying = false;
             document.getElementById('adToast').classList.remove('show');
             musicCount = 0;
@@ -801,9 +795,7 @@
             return;
         }
         
-        if (isAdPlaying) {
-            return;
-        }
+        if (isAdPlaying) return;
         
         if (isPlaying) {
             pauseMusic();
@@ -819,27 +811,16 @@
                 playRandomMusic();
             }
         }
-        togglePlayer();
     }
     
     function nextTrack() {
         if (!isActive || isAdPlaying || isLoading) return;
         pauseMusic();
         playRandomMusic();
-        resetHideTimer();
     }
     
     function prevTrack() {
         nextTrack();
-    }
-    
-    function resetHideTimer() {
-        if (autoHideTimer) clearTimeout(autoHideTimer);
-        autoHideTimer = setTimeout(() => {
-            if ((isPlaying || isAdPlaying) && !playerContainer.classList.contains('hide')) {
-                playerContainer.classList.add('hide');
-            }
-        }, 4000);
     }
     
     // ==================== TELA CHEIA ====================
@@ -849,8 +830,6 @@
             docEl.requestFullscreen();
         } else if (docEl.webkitRequestFullscreen) {
             docEl.webkitRequestFullscreen();
-        } else if (docEl.msRequestFullscreen) {
-            docEl.msRequestFullscreen();
         }
     }
     
@@ -870,7 +849,6 @@
             isActive = true;
             document.getElementById('activateBtn').style.display = 'none';
             
-            // TELA CHEIA
             enterFullscreen();
             
             showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
@@ -894,15 +872,12 @@
     
     // ==================== EVENTOS ====================
     
-    // Toque na tela para mostrar/esconder controles
     document.addEventListener('touchstart', (e) => {
-        // Se o sistema está ativo, mostra/esconde o player
         if (isActive && !e.target.closest('.ctrl-btn') && !e.target.closest('.float-btn') && !e.target.closest('.menu-btn')) {
             togglePlayer();
         }
     });
     
-    // Gestos de deslizar
     let touchStartX = 0;
     let lastTap = 0;
     
@@ -924,17 +899,14 @@
         }
     });
     
-    // Barra de progresso
     document.getElementById('progressBarBg').addEventListener('click', (e) => {
         if (audio.duration && !isAdPlaying && isPlaying) {
             const rect = e.currentTarget.getBoundingClientRect();
             const percent = (e.clientX - rect.left) / rect.width;
             audio.currentTime = percent * audio.duration;
         }
-        togglePlayer();
     });
     
-    // Event Listeners dos botões
     document.getElementById('activateBtn').addEventListener('click', startSystem);
     document.getElementById('playPauseBtn').addEventListener('click', (e) => {
         e.stopPropagation();
@@ -949,14 +921,12 @@
         prevTrack();
     });
     
-    // WhatsApp
     function openWhatsApp() {
         window.open('https://wa.me/5512988461978', '_blank');
     }
     document.getElementById('wppBtn').addEventListener('click', openWhatsApp);
     document.getElementById('menuWppBtn').addEventListener('click', openWhatsApp);
     
-    // Bluetooth
     document.getElementById('bluetoothBtn').addEventListener('click', async () => {
         if ('bluetooth' in navigator) {
             try {
@@ -970,18 +940,15 @@
         }
     });
     
-    // Info Modal
     document.getElementById('infoBtn').addEventListener('click', () => {
         document.getElementById('infoModal').classList.add('open');
     });
     
-    // Manual Modal
     document.getElementById('manualBtn').addEventListener('click', () => {
         document.getElementById('manualModal').classList.add('open');
         document.getElementById('menuPopup').classList.remove('open');
     });
     
-    // Menu Popup
     const menuPopup = document.getElementById('menuPopup');
     document.getElementById('menuBtn').addEventListener('click', (e) => {
         e.stopPropagation();
@@ -994,7 +961,6 @@
         }
     });
     
-    // Compartilhar
     document.getElementById('shareBtn').addEventListener('click', () => {
         const url = window.location.href;
         if (navigator.share) {
@@ -1011,7 +977,6 @@
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
     console.log("✅ SISTEMA FUNCIONAL: Anúncio → 2 Músicas → Anúncio...");
-    console.log("✅ Toque na tela = mostra/esconde controles");
 </script>
 </body>
 </html>
