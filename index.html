@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ótica Heloísa • Música Ambiente • 5 Anúncios</title>
+    <title>Ótica Heloísa • Música Ambiente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -459,7 +459,7 @@
 
         <div class="music-info">
             <div class="track-name" id="trackName">🎵 Clique no botão verde</div>
-            <div class="track-artist" id="trackArtist">5 anúncios • Música ambiente</div>
+            <div class="track-artist" id="trackArtist">2 anúncios • Música ambiente</div>
         </div>
 
         <div class="progress-area">
@@ -536,12 +536,7 @@
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
             <p><strong>🔊 LÓGICA:</strong></p>
-            <p>1º → ANÚNCIO</p>
-            <p>2º → MÚSICA 1</p>
-            <p>3º → MÚSICA 2</p>
-            <p>4º → ANÚNCIO</p>
-            <p>5º → MÚSICA 3</p>
-            <p>6º → MÚSICA 4...</p>
+            <p style="color: #25D366; font-weight: bold;">✅ ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -661,29 +656,29 @@
         }
     }
     
-    // ==================== SUAS MÚSICAS ====================
+    // ==================== TODAS AS SUAS 21 MÚSICAS ====================
     const SONGS = [
-        { id: 538, title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 539, title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 540, title: "Felipe Araújo e Thiaguinho - Espaçosa Demais", src: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 541, title: "Bokaloka - Duas paixões / Procurando alguém / Bye Bye", src: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 542, title: "Péricles - Me Apaixonei pela Pessoa Errada", src: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 543, title: "Desse Jeito - Desse Jeito / Ruim pra Mim", src: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 544, title: "Ferrugem - Telepatia (part. Thiaguinho)", src: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 545, title: "Délcio Luiz - Meu casamento / Refém do coração / Luz do desejo", src: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 546, title: "Até Que - Até Que Durou (Ao Vivo)", src: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 547, title: "Ludmilla - Falta de Mim", src: "LUDMILLA_Falta_de_Mim_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 548, title: "Belo - Transas (Ao Vivo)", src: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 549, title: "Ivete Sangalo - Ah, Como Eu Te Amei / Retalhos de Cetim / Ivete Clareou", src: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 550, title: "Mania - Mania de Você", src: "Mania_de_Mania_de_Voc__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 551, title: "Xande de Pilares - Defunto / Caguete / Malandro Não Vacila", src: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 552, title: "Kiko - Nem de Graça / Falando Segredo / Brilho de Cristal", src: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 553, title: "Marvvila e Ivete Sangalo - Você Não Vai Sofrer", src: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 554, title: "Rolezinho - Rolezinho (Grupo)", src: "Rolezinho_Rolezinho_Grupo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 555, title: "PaGGodin - L o Santana / Girassol / Uma Brasileira / Sombra Da Maldade", src: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 556, title: "Leandro Sapucahy - Naquela Mesa", src: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 557, title: "Sorriso Maroto - Meu Jeito de Ser / Que Se Chama Amor", src: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-        { id: 558, title: "Pra Não - Pra Não Pensar Em Você (Ao Vivo)", src: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" }
+        { title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a" },
+        { title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a" },
+        { title: "Felipe Araújo e Thiaguinho - Espaçosa Demais", src: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a" },
+        { title: "Bokaloka - Duas paixões / Procurando alguém / Bye Bye", src: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a" },
+        { title: "Péricles - Me Apaixonei pela Pessoa Errada", src: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a" },
+        { title: "Desse Jeito - Desse Jeito / Ruim pra Mim", src: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a" },
+        { title: "Ferrugem - Telepatia (part. Thiaguinho)", src: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a" },
+        { title: "Délcio Luiz - Meu casamento / Refém do coração / Luz do desejo", src: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a" },
+        { title: "Até Que - Até Que Durou (Ao Vivo)", src: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a" },
+        { title: "Ludmilla - Falta de Mim", src: "LUDMILLA_Falta_de_Mim_muzzik.m4a" },
+        { title: "Belo - Transas (Ao Vivo)", src: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a" },
+        { title: "Ivete Sangalo - Ah, Como Eu Te Amei / Retalhos de Cetim / Ivete Clareou", src: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a" },
+        { title: "Mania - Mania de Você", src: "Mania_de_Mania_de_Voc__muzzik.m4a" },
+        { title: "Xande de Pilares - Defunto / Caguete / Malandro Não Vacila", src: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a" },
+        { title: "Kiko - Nem de Graça / Falando Segredo / Brilho de Cristal", src: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a" },
+        { title: "Marvvila e Ivete Sangalo - Você Não Vai Sofrer", src: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a" },
+        { title: "Rolezinho - Rolezinho (Grupo)", src: "Rolezinho_Rolezinho_Grupo_muzzik.m4a" },
+        { title: "PaGGodin - L o Santana / Girassol / Uma Brasileira / Sombra Da Maldade", src: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a" },
+        { title: "Leandro Sapucahy - Naquela Mesa", src: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a" },
+        { title: "Sorriso Maroto - Meu Jeito de Ser / Que Se Chama Amor", src: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a" },
+        { title: "Pra Não - Pra Não Pensar Em Você (Ao Vivo)", src: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a" }
     ];
     
     // ==================== 2 ANÚNCIOS ====================
@@ -794,6 +789,7 @@
         }
     };
     
+    // ==================== CONTROLES ====================
     function pauseMusic() {
         if (audio.src && !audio.paused) {
             audio.pause();
@@ -870,39 +866,46 @@
         }
     }
     
-    // ==================== INICIAR SISTEMA ====================
+    // ==================== INICIAR SISTEMA (CORRIGIDO) ====================
     async function startSystem() {
         if (isActive) return;
         
         showLoading(true);
         
         try {
+            // Desbloquear áudio no mobile
             const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (AudioContext) {
-                const ctx = new AudioContext();
-                await ctx.resume();
-                ctx.close();
-            }
+            const ctx = new AudioContext();
             
             // Som silencioso para desbloquear
-            const silentAudio = new Audio();
-            silentAudio.src = "data:audio/wav;base64,U3RlYWx0aCBzb3VuZCB0byB1bmxvY2sgYXVkaW8gb24gbW9iaWxlIGRldmljZXMuIFRoaXMgaXMgYSB0ZXN0IGZpbGUgZm9yIFdlYiBBdWRpbyBhbmQgaXQgd29ya3MgZmluZS4=";
-            silentAudio.volume = 0;
-            await silentAudio.play();
+            const oscillator = ctx.createOscillator();
+            const gain = ctx.createGain();
+            oscillator.connect(gain);
+            gain.connect(ctx.destination);
+            gain.gain.value = 0;
+            oscillator.start();
+            oscillator.stop(ctx.currentTime + 0.1);
+            
+            await ctx.resume();
+            setTimeout(() => ctx.close(), 200);
             
             isActive = true;
             document.getElementById('activateBtn').style.display = 'none';
             
-            enterFullscreen();
+            // Tela cheia
+            try {
+                await document.documentElement.requestFullscreen();
+            } catch(e) {}
             
             showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
             adIndex = 0;
             
+            // Pequeno delay para garantir que o áudio foi desbloqueado
             setTimeout(() => {
                 playAd();
-            }, 100);
+            }, 500);
             
             startVisualizer();
             
@@ -911,7 +914,9 @@
             
         } catch (err) {
             console.error("Erro:", err);
-            showNotification("Clique NOVAMENTE no botão verde!", 3000);
+            showNotification("🔊 Clique NOVAMENTE no botão verde!", 3000);
+            isActive = false;
+            document.getElementById('activateBtn').style.display = 'block';
         } finally {
             showLoading(false);
         }
@@ -1012,7 +1017,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA PRONTO - LÓGICA: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...");
+    console.log("✅ SISTEMA PRONTO - LÓGICA: ANÚNCIO → 2 MÚSICAS → ANÚNCIO → 2 MÚSICAS...");
 </script>
 </body>
 </html>
