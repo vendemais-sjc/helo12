@@ -447,7 +447,7 @@
 
 <div class="app">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="abc.mp4">
+        <source src="abc.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
 
@@ -535,11 +535,13 @@
     <div class="modal" id="manualModal">
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
-            <p><strong>🔊 LÓGICA:</strong></p>
+            <p><strong>🔊 LÓGICA CORRETA:</strong></p>
             <p>1º → ANÚNCIO</p>
-            <p>2º → 2 MÚSICAS</p>
-            <p>3º → ANÚNCIO</p>
-            <p>4º → 2 MÚSICAS...</p>
+            <p>2º → MÚSICA 1</p>
+            <p>3º → MÚSICA 2</p>
+            <p>4º → ANÚNCIO</p>
+            <p>5º → MÚSICA 3</p>
+            <p>6º → MÚSICA 4... e assim por diante!</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -556,7 +558,7 @@
     let isActive = false;
     let isPlaying = false;
     let isAdPlaying = false;
-    let musicCount = 0;
+    let musicCount = 0; // Conta quantas músicas já tocaram (0, 1, 2...)
     let isLoading = false;
     let autoHideTimer = null;
     let progressInterval = null;
@@ -659,7 +661,7 @@
         }
     }
     
-    // ==================== SUAS MÚSICAS (use os nomes de arquivo corretos) ====================
+    // ==================== SUAS MÚSICAS ====================
     const SONGS = [
         { title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a" },
         { title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a" },
@@ -685,7 +687,6 @@
     ];
     
     // ==================== 2 ANÚNCIOS DE VOZ ====================
-    // IMPORTANTE: Coloque seus arquivos de áudio de anúncio na mesma pasta
     const ADS = [
         { text: "📢 Ótica Heloísa! Armações com até 50% de desconto! Venha conferir!", src: "anun1.mp3" },
         { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
@@ -712,16 +713,15 @@
                 startProgressTimer();
                 startVisualizer();
                 updateStatus();
+                console.log(`🎵 Tocando música ${musicCount + 1}/2: ${song.title}`);
             }).catch(err => {
                 console.log("Erro ao tocar música:", err);
-                showNotification("Erro ao carregar música, tentando outra...", 2000);
                 setTimeout(() => playRandomMusic(), 1000);
             });
         };
         
         audio.onerror = () => {
-            console.log("Erro no arquivo de música, tentando outra música...");
-            showNotification("Erro no arquivo de música", 1500);
+            console.log("Erro no arquivo de música, tentando outra...");
             setTimeout(() => playRandomMusic(), 1000);
         };
     }
@@ -734,7 +734,6 @@
         isPlaying = false;
         updateStatus();
         
-        // Escolhe um dos 2 anúncios
         const adIndex = Math.floor(Math.random() * ADS.length);
         const ad = ADS[adIndex];
         
@@ -743,14 +742,14 @@
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        // Tocar o áudio do anúncio
+        console.log(`📢 Tocando anúncio: ${ad.text}`);
+        
         audio.src = ad.src;
         audio.load();
         
         audio.oncanplaythrough = () => {
             audio.play().catch(err => {
                 console.log("Erro ao tocar anúncio:", err);
-                // Se falhar, pula o anúncio
                 setTimeout(() => {
                     isAdPlaying = false;
                     document.getElementById('adToast').classList.remove('show');
@@ -762,10 +761,10 @@
         };
         
         audio.onended = () => {
-            // Fim do anúncio
+            console.log("✅ Anúncio finalizado, voltando para as músicas");
             isAdPlaying = false;
             document.getElementById('adToast').classList.remove('show');
-            musicCount = 0;
+            musicCount = 0; // Reseta contagem para começar com música 1/2
             playRandomMusic();
             updateStatus();
         };
@@ -780,17 +779,22 @@
         };
     }
     
-    // ==================== FIM DA MÚSICA ====================
+    // ==================== FIM DA MÚSICA (LÓGICA CORRIGIDA) ====================
     audio.onended = () => {
         if (isAdPlaying) return;
         
         if (isActive && isPlaying) {
-            musicCount++;
+            musicCount++; // Incrementa: 0->1 (1ª música), 1->2 (2ª música)
+            console.log(`🎵 Música finalizada. Contagem: ${musicCount}/2`);
             updateStatus();
             
             if (musicCount >= 2) {
+                // Já tocou 2 músicas, hora do anúncio
+                console.log("🔁 2 músicas tocadas! Iniciando anúncio...");
                 playRandomAd();
             } else {
+                // Ainda não completou 2 músicas, toca próxima música
+                console.log("🎵 Tocando próxima música...");
                 playRandomMusic();
             }
         }
@@ -853,6 +857,39 @@
         }
     }
     
+    // ==================== BLUETOOTH MELHORADO ====================
+    async function connectBluetooth() {
+        showNotification("🔵 Procurando dispositivos Bluetooth...", 2000);
+        
+        if ('bluetooth' in navigator) {
+            try {
+                const device = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['battery_service']
+                });
+                
+                showNotification(`✅ Conectado a: ${device.name || 'Dispositivo'}`, 3000);
+                console.log("Bluetooth conectado:", device);
+                
+                // Tenta conectar ao dispositivo
+                const server = await device.gatt.connect();
+                showNotification("🔊 Áudio será direcionado para o dispositivo Bluetooth", 3000);
+                
+            } catch(error) {
+                console.log("Erro Bluetooth:", error);
+                if (error.name === 'NotFoundError') {
+                    showNotification("❌ Nenhum dispositivo encontrado", 2000);
+                } else if (error.name === 'SecurityError') {
+                    showNotification("🔒 Conexão cancelada ou não permitida", 2000);
+                } else {
+                    showNotification("❌ Erro ao conectar Bluetooth", 2000);
+                }
+            }
+        } else {
+            showNotification("⚠️ Este navegador não suporta Web Bluetooth. Use Chrome ou Edge!", 4000);
+        }
+    }
+    
     // ==================== INICIAR SISTEMA ====================
     async function startSystem() {
         if (isActive) return;
@@ -873,7 +910,7 @@
             
             enterFullscreen();
             
-            showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
+            showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
             playRandomAd(); // Começa com anúncio
@@ -949,18 +986,8 @@
     document.getElementById('wppBtn').addEventListener('click', openWhatsApp);
     document.getElementById('menuWppBtn').addEventListener('click', openWhatsApp);
     
-    document.getElementById('bluetoothBtn').addEventListener('click', async () => {
-        if ('bluetooth' in navigator) {
-            try {
-                await navigator.bluetooth.requestDevice({ acceptAllDevices: true });
-                showNotification("✅ Bluetooth conectado!", 3000);
-            } catch(e) {
-                showNotification("❌ Conexão cancelada", 2000);
-            }
-        } else {
-            showNotification("Web Bluetooth não suportado", 3000);
-        }
-    });
+    // Bluetooth melhorado
+    document.getElementById('bluetoothBtn').addEventListener('click', connectBluetooth);
     
     document.getElementById('infoBtn').addEventListener('click', () => {
         document.getElementById('infoModal').classList.add('open');
@@ -998,8 +1025,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA PRONTO: Anúncio → 2 Músicas → Anúncio...");
-    console.log("📁 Certifique-se que os arquivos .m4a e .mp3 estão na mesma pasta!");
+    console.log("✅ SISTEMA PRONTO - LÓGICA: Anúncio → 2 Músicas → Anúncio → 2 Músicas...");
 </script>
 </body>
 </html>
