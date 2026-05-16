@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ótica Heloísa • Música Ambiente • 5 Anúncios</title>
+    <title>Ótica Heloísa • Música Ambiente • Anúncios</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -459,7 +459,7 @@
 
         <div class="music-info">
             <div class="track-name" id="trackName">🎵 Clique no botão verde</div>
-            <div class="track-artist" id="trackArtist">5 anúncios • Música ambiente</div>
+            <div class="track-artist" id="trackArtist">Música ambiente • Ótica Heloísa</div>
         </div>
 
         <div class="progress-area">
@@ -659,59 +659,36 @@
         }
     }
     
-    // ==================== MÚSICAS (URLs FUNCIONAIS) ====================
+    // ==================== SUAS MÚSICAS (use os nomes de arquivo corretos) ====================
     const SONGS = [
-        { name: "Jazz Melody 1 - Relaxing Piano", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-        { name: "Jazz Melody 2 - Smooth Jazz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" },
-        { name: "Jazz Melody 3 - Acoustic Guitar", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3" },
-        { name: "Jazz Melody 4 - Piano Vibes", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3" },
-        { name: "Jazz Melody 5 - Summer Breeze", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3" },
-        { name: "Jazz Melody 6 - Chill Out", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3" },
-        { name: "Jazz Melody 7 - Midnight Blues", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3" },
-        { name: "Jazz Melody 8 - Morning Coffee", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" },
-        { name: "Jazz Melody 9 - Sunset Groove", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3" },
-        { name: "Jazz Melody 10 - Dreamy Nights", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3" },
-        { name: "Jazz Melody 11 - Urban Jazz", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3" },
-        { name: "Jazz Melody 12 - Latin Groove", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3" },
-        { name: "Jazz Melody 13 - Soulful", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3" },
-        { name: "Jazz Melody 14 - Relaxing Vibes", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3" },
-        { name: "Jazz Melody 15 - Smooth Evening", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3" }
+        { title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a" },
+        { title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a" },
+        { title: "Felipe Araújo e Thiaguinho - Espaçosa Demais", src: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a" },
+        { title: "Bokaloka - Duas paixões / Procurando alguém / Bye Bye", src: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a" },
+        { title: "Péricles - Me Apaixonei pela Pessoa Errada", src: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a" },
+        { title: "Desse Jeito - Desse Jeito / Ruim pra Mim", src: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a" },
+        { title: "Ferrugem - Telepatia (part. Thiaguinho)", src: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a" },
+        { title: "Délcio Luiz - Meu casamento / Refém do coração / Luz do desejo", src: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a" },
+        { title: "Até Que - Até Que Durou (Ao Vivo)", src: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a" },
+        { title: "Ludmilla - Falta de Mim", src: "LUDMILLA_Falta_de_Mim_muzzik.m4a" },
+        { title: "Belo - Transas (Ao Vivo)", src: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a" },
+        { title: "Ivete Sangalo - Ah, Como Eu Te Amei / Retalhos de Cetim / Ivete Clareou", src: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a" },
+        { title: "Mania - Mania de Você", src: "Mania_de_Mania_de_Voc__muzzik.m4a" },
+        { title: "Xande de Pilares - Defunto / Caguete / Malandro Não Vacila", src: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a" },
+        { title: "Kiko - Nem de Graça / Falando Segredo / Brilho de Cristal", src: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a" },
+        { title: "Marvvila e Ivete Sangalo - Você Não Vai Sofrer", src: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a" },
+        { title: "Rolezinho - Rolezinho (Grupo)", src: "Rolezinho_Rolezinho_Grupo_muzzik.m4a" },
+        { title: "PaGGodin - L o Santana / Girassol / Uma Brasileira / Sombra Da Maldade", src: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a" },
+        { title: "Leandro Sapucahy - Naquela Mesa", src: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a" },
+        { title: "Sorriso Maroto - Meu Jeito de Ser / Que Se Chama Amor", src: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a" },
+        { title: "Pra Não - Pra Não Pensar Em Você (Ao Vivo)", src: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a" }
     ];
     
-    // ==================== ANÚNCIOS (áudio de teste com tons) ====================
-    // Usando um gerador de tom simples via Web Audio para os anúncios
-    function playBeepAd(text) {
-        return new Promise((resolve) => {
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const ctx = new AudioContext();
-            const duration = 3;
-            const now = ctx.currentTime;
-            
-            // Criar beep simples
-            const oscillator = ctx.createOscillator();
-            const gain = ctx.createGain();
-            oscillator.connect(gain);
-            gain.connect(ctx.destination);
-            oscillator.frequency.value = 880;
-            gain.gain.value = 0.3;
-            
-            oscillator.start();
-            gain.gain.exponentialRampToValueAtTime(0.00001, now + duration);
-            oscillator.stop(now + duration);
-            
-            setTimeout(() => {
-                ctx.close();
-                resolve();
-            }, duration * 1000);
-        });
-    }
-    
+    // ==================== 2 ANÚNCIOS DE VOZ ====================
+    // IMPORTANTE: Coloque seus arquivos de áudio de anúncio na mesma pasta
     const ADS = [
-        { text: "📢 Ótica Heloísa! Armações com até 50% de desconto!" },
-        { text: "📢 Promoção especial! Lentes com garantia de 1 ano!" },
-        { text: "📢 Venha nos visitar! A melhor qualidade em óculos!" },
-        { text: "📢 Consulta gratuita! Agende já seu horário!" },
-        { text: "📢 Ótica Heloísa - Sua visão merece o melhor!" }
+        { text: "📢 Ótica Heloísa! Armações com até 50% de desconto! Venha conferir!", src: "anun1.mp3" },
+        { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
     ];
     
     // ==================== TOCAR MÚSICA ====================
@@ -722,10 +699,10 @@
         currentSongIndex = randomIndex;
         const song = SONGS[currentSongIndex];
         
-        document.getElementById('trackName').textContent = song.name;
+        document.getElementById('trackName').textContent = song.title;
         document.getElementById('trackArtist').textContent = "🎧 Tocando agora • Música Ambiente";
         
-        audio.src = song.url;
+        audio.src = song.src;
         audio.load();
         
         audio.oncanplaythrough = () => {
@@ -736,46 +713,71 @@
                 startVisualizer();
                 updateStatus();
             }).catch(err => {
-                console.log("Erro ao tocar:", err);
+                console.log("Erro ao tocar música:", err);
+                showNotification("Erro ao carregar música, tentando outra...", 2000);
                 setTimeout(() => playRandomMusic(), 1000);
             });
         };
         
         audio.onerror = () => {
-            console.log("Erro no áudio, tentando outra música...");
+            console.log("Erro no arquivo de música, tentando outra música...");
+            showNotification("Erro no arquivo de música", 1500);
             setTimeout(() => playRandomMusic(), 1000);
         };
     }
     
     // ==================== TOCAR ANÚNCIO ====================
-    async function playRandomAd() {
+    function playRandomAd() {
         if (!isActive) return;
         
         isAdPlaying = true;
         isPlaying = false;
         updateStatus();
         
-        const ad = ADS[Math.floor(Math.random() * ADS.length)];
+        // Escolhe um dos 2 anúncios
+        const adIndex = Math.floor(Math.random() * ADS.length);
+        const ad = ADS[adIndex];
         
         const adToast = document.getElementById('adToast');
         const adToastText = document.getElementById('adToastText');
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        // Pausar qualquer áudio atual
-        if (audio.src) {
-            audio.pause();
-        }
+        // Tocar o áudio do anúncio
+        audio.src = ad.src;
+        audio.load();
         
-        // Tocar beep como anúncio de exemplo
-        await playBeepAd(ad.text);
+        audio.oncanplaythrough = () => {
+            audio.play().catch(err => {
+                console.log("Erro ao tocar anúncio:", err);
+                // Se falhar, pula o anúncio
+                setTimeout(() => {
+                    isAdPlaying = false;
+                    document.getElementById('adToast').classList.remove('show');
+                    musicCount = 0;
+                    playRandomMusic();
+                    updateStatus();
+                }, 500);
+            });
+        };
         
-        // Fim do anúncio
-        isAdPlaying = false;
-        document.getElementById('adToast').classList.remove('show');
-        musicCount = 0;
-        playRandomMusic();
-        updateStatus();
+        audio.onended = () => {
+            // Fim do anúncio
+            isAdPlaying = false;
+            document.getElementById('adToast').classList.remove('show');
+            musicCount = 0;
+            playRandomMusic();
+            updateStatus();
+        };
+        
+        audio.onerror = () => {
+            console.log("Erro no arquivo de anúncio, pulando...");
+            isAdPlaying = false;
+            document.getElementById('adToast').classList.remove('show');
+            musicCount = 0;
+            playRandomMusic();
+            updateStatus();
+        };
     }
     
     // ==================== FIM DA MÚSICA ====================
@@ -810,7 +812,10 @@
             return;
         }
         
-        if (isAdPlaying) return;
+        if (isAdPlaying) {
+            showNotification("Anúncio em execução, aguarde...", 1500);
+            return;
+        }
         
         if (isPlaying) {
             pauseMusic();
@@ -855,6 +860,7 @@
         showLoading(true);
         
         try {
+            // Ativar áudio para mobile
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) {
                 const ctx = new AudioContext();
@@ -870,11 +876,11 @@
             showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
-            await playRandomAd();
+            playRandomAd(); // Começa com anúncio
             startVisualizer();
             
             const video = document.getElementById('bgVideo');
-            video.play().catch(e => console.log("Aguardando interação"));
+            video.play().catch(e => console.log("Vídeo aguardando interação"));
             
         } catch (err) {
             console.error("Erro:", err);
@@ -992,7 +998,8 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA FUNCIONAL: Anúncio → 2 Músicas → Anúncio...");
+    console.log("✅ SISTEMA PRONTO: Anúncio → 2 Músicas → Anúncio...");
+    console.log("📁 Certifique-se que os arquivos .m4a e .mp3 estão na mesma pasta!");
 </script>
 </body>
 </html>
