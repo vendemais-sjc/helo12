@@ -536,7 +536,7 @@
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
             <p><strong>🔊 LÓGICA CORRETA:</strong></p>
-            <p style="color: #25D366; font-weight: bold;">ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
+            <p style="color: #25D366; font-weight: bold; font-size: 1.1rem;">ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -686,6 +686,8 @@
         { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
     ];
     
+    let adIndex = 0; // Para alternar entre os anúncios
+    
     // ==================== TOCAR MÚSICA ====================
     function playRandomMusic() {
         if (!isActive || isAdPlaying) return;
@@ -725,17 +727,22 @@
         
         isAdPlaying = true;
         isPlaying = false;
-        updateStatus();
         
-        const adIndex = Math.floor(Math.random() * ADS.length);
-        const ad = ADS[adIndex];
+        // Para o visualizer durante o anúncio
+        stopVisualizer();
+        stopProgressTimer();
+        
+        // Alterna entre os anúncios
+        const ad = ADS[adIndex % ADS.length];
+        adIndex++;
         
         const adToast = document.getElementById('adToast');
         const adToastText = document.getElementById('adToastText');
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        console.log(`📢 Tocando ANÚNCIO: ${ad.text}`);
+        console.log(`📢 Tocando ANÚNCIO ${adIndex}: ${ad.text}`);
+        updateStatus();
         
         audio.src = ad.src;
         audio.load();
@@ -743,21 +750,20 @@
         audio.oncanplaythrough = () => {
             audio.play().catch(err => {
                 console.log("Erro ao tocar anúncio:", err);
-                setTimeout(() => {
-                    isAdPlaying = false;
-                    document.getElementById('adToast').classList.remove('show');
-                    musicCount = 0;
-                    playRandomMusic();
-                    updateStatus();
-                }, 500);
+                // Se erro, pula o anúncio e vai para a música
+                isAdPlaying = false;
+                document.getElementById('adToast').classList.remove('show');
+                musicCount = 0;
+                playRandomMusic();
+                updateStatus();
             });
         };
         
         audio.onended = () => {
-            console.log("✅ ANÚNCIO finalizado! Voltando para as músicas...");
+            console.log("✅ ANÚNCIO finalizado! Iniciando 2 músicas...");
             isAdPlaying = false;
             document.getElementById('adToast').classList.remove('show');
-            musicCount = 0; // RESETA para 0 (vai começar a contar as 2 músicas)
+            musicCount = 0; // Reseta contagem para 0 (primeira música)
             playRandomMusic();
             updateStatus();
         };
@@ -904,8 +910,8 @@
             showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
+            adIndex = 0; // Reseta índice dos anúncios
             playRandomAd(); // Começa com anúncio
-            startVisualizer();
             
             const video = document.getElementById('bgVideo');
             video.play().catch(e => console.log("Vídeo aguardando interação"));
