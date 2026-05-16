@@ -553,7 +553,7 @@
     let isActive = false;
     let isPlaying = false;
     let isAdPlaying = false;
-    let musicCount = 0; // 0 = nenhuma, 1 = primeira música, 2 = segunda música
+    let musicCount = 0;
     let isLoading = false;
     let autoHideTimer = null;
     let progressInterval = null;
@@ -687,7 +687,7 @@
         { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
     ];
     
-    // ==================== FUNÇÃO PARA TOCAR MÚSICA ====================
+    // ==================== TOCAR MÚSICA ====================
     function playRandomMusic() {
         if (!isActive || isAdPlaying) return;
         
@@ -720,7 +720,7 @@
         };
     }
     
-    // ==================== FUNÇÃO PARA TOCAR ANÚNCIO ====================
+    // ==================== TOCAR ANÚNCIO ====================
     function playAd() {
         if (!isActive) return;
         
@@ -765,33 +765,31 @@
         console.log("✅ ANÚNCIO FINALIZADO! Voltando para as músicas...");
         isAdPlaying = false;
         document.getElementById('adToast').classList.remove('show');
-        musicCount = 0; // RESETA para 0 (vai começar a contar as 2 músicas)
+        musicCount = 0;
         playRandomMusic();
         updateStatus();
     }
     
-    // ==================== FIM DA MÚSICA (LÓGICA PRINCIPAL) ====================
+    // ==================== FIM DA MÚSICA - LÓGICA PRINCIPAL ====================
     audio.onended = () => {
         if (isAdPlaying) return;
         
         if (isActive && isPlaying) {
-            musicCount++; // 0->1 (primeira música), 1->2 (segunda música)
+            musicCount++;
             console.log(`🎵 Música finalizada. musicCount = ${musicCount}`);
             updateStatus();
             
             if (musicCount >= 2) {
-                // Já tocou 2 músicas → TOCA ANÚNCIO
-                console.log("🔁🔁🔁 2 MÚSICAS TOCADAS! INICIANDO ANÚNCIO...");
+                console.log("🔁 2 MÚSICAS TOCADAS! INICIANDO ANÚNCIO...");
                 playAd();
             } else {
-                // Ainda não completou 2 músicas → TOCA PRÓXIMA MÚSICA
                 console.log("🎵 Tocando PRÓXIMA música...");
                 playRandomMusic();
             }
         }
     };
     
-    // ==================== CONTROLES DO PLAYER ====================
+    // ==================== CONTROLES ====================
     function pauseMusic() {
         if (audio.src && !audio.paused) {
             audio.pause();
@@ -860,17 +858,11 @@
                     optionalServices: ['battery_service']
                 });
                 showNotification(`✅ Conectado a: ${device.name || 'Dispositivo'}`, 3000);
-                console.log("Bluetooth conectado:", device);
             } catch(error) {
-                console.log("Erro Bluetooth:", error);
-                if (error.name === 'NotFoundError') {
-                    showNotification("❌ Nenhum dispositivo encontrado", 2000);
-                } else {
-                    showNotification("❌ Conexão cancelada", 2000);
-                }
+                showNotification("❌ Conexão cancelada", 2000);
             }
         } else {
-            showNotification("⚠️ Use Chrome ou Edge para Bluetooth", 3000);
+            showNotification("⚠️ Use Chrome ou Edge", 3000);
         }
     }
     
@@ -881,13 +873,19 @@
         showLoading(true);
         
         try {
-            // Ativar áudio para mobile
+            // ATIVA ÁUDIO NO MOBILE
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) {
                 const ctx = new AudioContext();
                 await ctx.resume();
                 ctx.close();
             }
+            
+            // SOM SILENCIOSO PARA DESBLOQUEAR
+            const silentAudio = new Audio();
+            silentAudio.src = "data:audio/wav;base64,U3RlYWx0aCBzb3VuZCB0byB1bmxvY2sgYXVkaW8gb24gbW9iaWxlIGRldmljZXMuIFRoaXMgaXMgYSB0ZXN0IGZpbGUgZm9yIFdlYiBBdWRpbyBhbmQgaXQgd29ya3MgZmluZS4=";
+            silentAudio.volume = 0;
+            await silentAudio.play();
             
             isActive = true;
             document.getElementById('activateBtn').style.display = 'none';
@@ -898,17 +896,19 @@
             
             musicCount = 0;
             adIndex = 0;
-            playAd(); // Começa com anúncio
+            
+            setTimeout(() => {
+                playAd();
+            }, 100);
+            
             startVisualizer();
             
             const video = document.getElementById('bgVideo');
-            video.play().catch(e => console.log("Vídeo aguardando interação"));
+            video.play().catch(e => console.log("Vídeo:", e));
             
         } catch (err) {
             console.error("Erro:", err);
-            showNotification("Erro ao ativar. Toque novamente.", 3000);
-            isActive = false;
-            document.getElementById('activateBtn').style.display = 'block';
+            showNotification("Clique NOVAMENTE no botão verde!", 3000);
         } finally {
             showLoading(false);
         }
@@ -1009,7 +1009,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA PRONTO - LÓGICA: ANÚNCIO → 2 MÚSICAS → ANÚNCIO → 2 MÚSICAS...");
+    console.log("✅ SISTEMA PRONTO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...");
 </script>
 </body>
 </html>
