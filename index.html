@@ -447,7 +447,7 @@
 
 <div class="app">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="abc.mp4" type="video/mp4">
+        <source src="anun.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
 
@@ -541,7 +541,7 @@
             <p>3º → MÚSICA 2</p>
             <p>4º → ANÚNCIO</p>
             <p>5º → MÚSICA 3</p>
-            <p>6º → MÚSICA 4... e assim por diante!</p>
+            <p>6º → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -558,7 +558,7 @@
     let isActive = false;
     let isPlaying = false;
     let isAdPlaying = false;
-    let musicCount = 0; // Conta quantas músicas já tocaram (0, 1, 2...)
+    let musicCount = 0; // 0 = nenhuma música, 1 = 1ª música, 2 = 2ª música
     let isLoading = false;
     let autoHideTimer = null;
     let progressInterval = null;
@@ -601,7 +601,7 @@
             statusSpan.style.background = "rgba(255, 107, 107, 0.3)";
             statusSpan.style.borderLeftColor = "#ff6b6b";
         } else {
-            statusSpan.innerHTML = `<i class="fas fa-music"></i> MÚSICA ${musicCount + 1}/2`;
+            statusSpan.innerHTML = `<i class="fas fa-music"></i> MÚSICA ${musicCount}/2`;
             statusSpan.style.background = "rgba(37, 211, 102, 0.2)";
             statusSpan.style.borderLeftColor = "#25D366";
         }
@@ -713,7 +713,7 @@
                 startProgressTimer();
                 startVisualizer();
                 updateStatus();
-                console.log(`🎵 Tocando música ${musicCount + 1}/2: ${song.title}`);
+                console.log(`🎵 Tocando música ${musicCount}/2: ${song.title}`);
             }).catch(err => {
                 console.log("Erro ao tocar música:", err);
                 setTimeout(() => playRandomMusic(), 1000);
@@ -742,7 +742,7 @@
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        console.log(`📢 Tocando anúncio: ${ad.text}`);
+        console.log(`📢 Tocando ANÚNCIO: ${ad.text}`);
         
         audio.src = ad.src;
         audio.load();
@@ -761,10 +761,10 @@
         };
         
         audio.onended = () => {
-            console.log("✅ Anúncio finalizado, voltando para as músicas");
+            console.log("✅ ANÚNCIO finalizado! Voltando para as músicas...");
             isAdPlaying = false;
             document.getElementById('adToast').classList.remove('show');
-            musicCount = 0; // Reseta contagem para começar com música 1/2
+            musicCount = 0; // RESETA para 0 (vai começar a contar as 2 músicas)
             playRandomMusic();
             updateStatus();
         };
@@ -784,17 +784,17 @@
         if (isAdPlaying) return;
         
         if (isActive && isPlaying) {
-            musicCount++; // Incrementa: 0->1 (1ª música), 1->2 (2ª música)
-            console.log(`🎵 Música finalizada. Contagem: ${musicCount}/2`);
+            musicCount++; // Incrementa: 1ª música = 1, 2ª música = 2
+            console.log(`🎵 Música finalizada. Agora musicCount = ${musicCount}`);
             updateStatus();
             
             if (musicCount >= 2) {
                 // Já tocou 2 músicas, hora do anúncio
-                console.log("🔁 2 músicas tocadas! Iniciando anúncio...");
+                console.log("🔁🔁🔁 2 MÚSICAS TOCADAS! INICIANDO ANÚNCIO...");
                 playRandomAd();
             } else {
                 // Ainda não completou 2 músicas, toca próxima música
-                console.log("🎵 Tocando próxima música...");
+                console.log("🎵 Tocando PRÓXIMA música...");
                 playRandomMusic();
             }
         }
@@ -857,7 +857,7 @@
         }
     }
     
-    // ==================== BLUETOOTH MELHORADO ====================
+    // ==================== BLUETOOTH ====================
     async function connectBluetooth() {
         showNotification("🔵 Procurando dispositivos Bluetooth...", 2000);
         
@@ -871,7 +871,6 @@
                 showNotification(`✅ Conectado a: ${device.name || 'Dispositivo'}`, 3000);
                 console.log("Bluetooth conectado:", device);
                 
-                // Tenta conectar ao dispositivo
                 const server = await device.gatt.connect();
                 showNotification("🔊 Áudio será direcionado para o dispositivo Bluetooth", 3000);
                 
@@ -897,7 +896,6 @@
         showLoading(true);
         
         try {
-            // Ativar áudio para mobile
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) {
                 const ctx = new AudioContext();
@@ -910,7 +908,7 @@
             
             enterFullscreen();
             
-            showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
+            showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
             playRandomAd(); // Começa com anúncio
@@ -986,7 +984,6 @@
     document.getElementById('wppBtn').addEventListener('click', openWhatsApp);
     document.getElementById('menuWppBtn').addEventListener('click', openWhatsApp);
     
-    // Bluetooth melhorado
     document.getElementById('bluetoothBtn').addEventListener('click', connectBluetooth);
     
     document.getElementById('infoBtn').addEventListener('click', () => {
@@ -1025,7 +1022,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA PRONTO - LÓGICA: Anúncio → 2 Músicas → Anúncio → 2 Músicas...");
+    console.log("✅ SISTEMA PRONTO - LÓGICA: Anúncio → 1ª Música → 2ª Música → Anúncio...");
 </script>
 </body>
 </html>
