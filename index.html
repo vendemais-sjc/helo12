@@ -182,59 +182,70 @@
             font-size: 1.5rem;
         }
 
+        /* NOVOS BOTÕES MENORES - FORMATO CIRCULAR */
         .float-buttons {
             position: fixed;
             right: 15px;
-            bottom: 120px;
+            bottom: 100px;
             z-index: 25;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .float-btn {
             cursor: pointer;
             border: none;
             color: white;
-            padding: 10px 16px;
-            border-radius: 50px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-weight: bold;
+            justify-content: center;
             transition: transform 0.2s;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            font-size: 0.85rem;
+            font-size: 1.1rem;
         }
 
         .float-btn:active {
-            transform: scale(0.95);
+            transform: scale(0.92);
+        }
+
+        .float-btn span {
+            display: none;
         }
 
         .btn-wpp { background: #25D366; }
-        .btn-info { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; padding: 12px; }
+        .btn-info { background: linear-gradient(135deg, #667eea, #764ba2); }
         .btn-bluetooth { background: #0082fc; }
 
+        /* VISUALIZER SUBIDO E MAIOR */
         .visualizer {
             position: fixed;
-            bottom: 120px;
-            left: 20px;
+            top: 80px;
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 4px;
+            gap: 6px;
             align-items: flex-end;
+            justify-content: center;
             z-index: 25;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
-            padding: 10px 12px;
-            border-radius: 30px;
+            padding: 15px 20px;
+            border-radius: 0 0 30px 30px;
+            margin: 0 auto;
+            width: fit-content;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .visualizer-bar {
-            width: 3px;
+            width: 5px;
             background: linear-gradient(135deg, #25D366, #667eea);
-            border-radius: 2px;
-            transition: height 0.05s ease;
-            height: 4px;
+            border-radius: 3px;
+            transition: height 0.08s ease;
+            height: 6px;
         }
 
         .menu-btn {
@@ -435,11 +446,12 @@
         }
 
         @media (max-width: 600px) {
-            .float-btn { padding: 8px 12px; font-size: 0.8rem; }
             .control-buttons { gap: 20px; }
             .ctrl-btn { width: 45px; height: 45px; }
             .play-btn { width: 55px; height: 55px; }
             .activate-btn { padding: 15px 30px; font-size: 1rem; }
+            .visualizer { top: 60px; padding: 12px 18px; gap: 5px; }
+            .visualizer-bar { width: 4px; }
         }
     </style>
 </head>
@@ -447,7 +459,7 @@
 
 <div class="app">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="abc.mp4" type="video/mp4">
+        <source src="anun.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
 
@@ -479,7 +491,12 @@
         </div>
     </div>
 
+    <!-- VISUALIZER SUBIDO -->
     <div class="visualizer" id="visualizer">
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
+        <div class="visualizer-bar"></div>
         <div class="visualizer-bar"></div>
         <div class="visualizer-bar"></div>
         <div class="visualizer-bar"></div>
@@ -490,9 +507,10 @@
         <div class="visualizer-bar"></div>
     </div>
 
+    <!-- BOTÕES MENORES - FORMATO CIRCULAR -->
     <div class="float-buttons">
-        <button class="float-btn btn-bluetooth" id="bluetoothBtn"><i class="fab fa-bluetooth-b"></i> Bluetooth</button>
-        <button class="float-btn btn-wpp" id="wppBtn"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        <button class="float-btn btn-bluetooth" id="bluetoothBtn"><i class="fab fa-bluetooth-b"></i></button>
+        <button class="float-btn btn-wpp" id="wppBtn"><i class="fab fa-whatsapp"></i></button>
         <button class="float-btn btn-info" id="infoBtn"><i class="fas fa-info"></i></button>
     </div>
 
@@ -536,7 +554,7 @@
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
             <p><strong>🔊 LÓGICA EXATA:</strong></p>
-            <p style="color: #25D366; font-weight: bold;">✅ ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4 → ANÚNCIO → MÚSICA 5... (sempre ciclo de 2 músicas + anúncio)</p>
+            <p style="color: #25D366; font-weight: bold;">✅ ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -557,9 +575,9 @@
     let autoHideTimer = null;
     let progressInterval = null;
     let visualizerInterval = null;
-    let currentAdIndex = 0;      // Alterna entre anúncio 1 e 2
-    let musicCountInCycle = 0;    // Quantas músicas já tocaram neste ciclo (máx 2)
-    let currentMusicList = [];     // Lista das 2 músicas atuais (evita repetição)
+    let currentAdIndex = 0;
+    let musicCountInCycle = 0;
+    let currentMusicList = [];
     
     const audio = document.getElementById('audioPlayer');
     const playerContainer = document.getElementById('playerContainer');
@@ -628,13 +646,13 @@
         visualizerInterval = setInterval(() => {
             if (isPlaying && !audio.paused && audio.currentTime > 0) {
                 bars.forEach(bar => {
-                    const height = 5 + Math.random() * 30;
+                    const height = 8 + Math.random() * 40;
                     bar.style.height = height + 'px';
                 });
             } else {
-                bars.forEach(bar => bar.style.height = '4px');
+                bars.forEach(bar => bar.style.height = '6px');
             }
-        }, 100);
+        }, 90);
     }
     
     function stopVisualizer() {
@@ -642,7 +660,7 @@
             clearInterval(visualizerInterval);
             visualizerInterval = null;
         }
-        document.querySelectorAll('.visualizer-bar').forEach(bar => bar.style.height = '4px');
+        document.querySelectorAll('.visualizer-bar').forEach(bar => bar.style.height = '6px');
     }
     
     function togglePlayer() {
@@ -684,11 +702,10 @@
     
     // ==================== 2 ANÚNCIOS ====================
     const ADS = [
-        { text: "📢 Ótica Heloísa! teste!", src: "anun1.mp3" },
-        { text: "📢 Promoção especial! teste", src: "anun2.mp3" }
+        { text: "📢 Ótica Heloísa! Armações com até 50% de desconto! Venha conferir!", src: "anun1.mp3" },
+        { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
     ];
     
-    // Função para pegar 2 músicas aleatórias diferentes
     function getRandomTwoSongs() {
         const shuffled = [...ALL_SONGS];
         for (let i = shuffled.length - 1; i > 0; i--) {
@@ -698,11 +715,9 @@
         return [shuffled[0], shuffled[1]];
     }
     
-    // ==================== TOCAR PRÓXIMA MÚSICA DO CICLO ====================
     function playNextMusicInCycle() {
         if (!isActive || isAdPlaying) return;
         
-        // Se não temos lista de músicas ou já tocamos as 2, recarregar
         if (!currentMusicList.length || musicCountInCycle >= 2) {
             console.log("🎵 Carregando novo par de músicas...");
             currentMusicList = getRandomTwoSongs();
@@ -733,13 +748,11 @@
         
         audio.onerror = () => {
             console.log("Erro no arquivo de música, tentando próxima...");
-            // Pula para a próxima música do ciclo
             musicCountInCycle++;
             playNextMusicInCycle();
         };
     }
     
-    // ==================== TOCAR ANÚNCIO ====================
     function playAd() {
         if (!isActive) return;
         
@@ -751,7 +764,6 @@
         const ad = ADS[currentAdIndex % ADS.length];
         currentAdIndex++;
         
-        // Mostra toast com o texto do anúncio
         const adToast = document.getElementById('adToast');
         const adToastText = document.getElementById('adToastText');
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
@@ -760,7 +772,6 @@
         console.log(`📢 TOCANDO ANÚNCIO ${currentAdIndex}: ${ad.text}`);
         updateStatus();
         
-        // Atualiza nome da track para mostrar anúncio
         document.getElementById('trackName').textContent = "📢 ANÚNCIO - Ótica Heloísa";
         document.getElementById('trackArtist').textContent = ad.text;
         
@@ -788,39 +799,29 @@
         console.log("✅ ANÚNCIO FINALIZADO! Voltando para as músicas...");
         isAdPlaying = false;
         document.getElementById('adToast').classList.remove('show');
-        
-        // Reset do contador de músicas para iniciar novo ciclo de 2 músicas
         musicCountInCycle = 0;
-        // Carrega um novo par de músicas
         currentMusicList = getRandomTwoSongs();
-        
-        // Toca a primeira música do novo ciclo
         playNextMusicInCycle();
         updateStatus();
     }
     
-    // ==================== FIM DA MÚSICA - GERENCIA O CICLO ====================
     audio.onended = () => {
-        if (isAdPlaying) return; // Não interrompe anúncio
+        if (isAdPlaying) return;
         
         if (isActive && isPlaying) {
-            // Incrementa contador de músicas tocadas neste ciclo
             musicCountInCycle++;
             console.log(`🎵 Música finalizada. musicCountInCycle = ${musicCountInCycle}`);
             
             if (musicCountInCycle >= 2) {
-                // Já tocaram 2 músicas, hora de tocar um anúncio
                 console.log("🔁 2 MÚSICAS TOCADAS! INICIANDO ANÚNCIO...");
                 playAd();
             } else {
-                // Ainda falta tocar a segunda música do ciclo
                 console.log("🎵 Tocando PRÓXIMA música do ciclo...");
                 playNextMusicInCycle();
             }
         }
     };
     
-    // ==================== CONTROLES ====================
     function pauseMusic() {
         if (audio.src && !audio.paused) {
             audio.pause();
@@ -863,12 +864,9 @@
     function nextTrack() {
         if (!isActive || isAdPlaying || isLoading) return;
         
-        // Pular para próxima música (caso esteja tocando música)
         if (isPlaying) {
-            // Termina a música atual artificialmente
             if (audio.src) {
                 audio.pause();
-                // Chama o evento onended manualmente
                 if (musicCountInCycle < 2) {
                     musicCountInCycle++;
                     if (musicCountInCycle >= 2) {
@@ -884,20 +882,9 @@
     }
     
     function prevTrack() {
-        nextTrack(); // Mesma ação
+        nextTrack();
     }
     
-    // ==================== TELA CHEIA ====================
-    function enterFullscreen() {
-        const docEl = document.documentElement;
-        if (docEl.requestFullscreen) {
-            docEl.requestFullscreen();
-        } else if (docEl.webkitRequestFullscreen) {
-            docEl.webkitRequestFullscreen();
-        }
-    }
-    
-    // ==================== BLUETOOTH ====================
     async function connectBluetooth() {
         showNotification("🔵 Procurando dispositivos Bluetooth...", 2000);
         
@@ -916,14 +903,12 @@
         }
     }
     
-    // ==================== INICIAR SISTEMA ====================
     async function startSystem() {
         if (isActive) return;
         
         showLoading(true);
         
         try {
-            // Desbloquear áudio no mobile
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             const ctx = new AudioContext();
             
@@ -945,9 +930,8 @@
                 await document.documentElement.requestFullscreen();
             } catch(e) {}
             
-            showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO → 2 MÚSICAS...", 4000);
+            showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
-            // Reset estados
             musicCountInCycle = 0;
             currentAdIndex = 0;
             currentMusicList = [];
@@ -957,7 +941,6 @@
             const video = document.getElementById('bgVideo');
             video.play().catch(e => console.log("Vídeo:", e));
             
-            // COMEÇA COM UM ANÚNCIO
             setTimeout(() => {
                 playAd();
             }, 300);
@@ -1067,7 +1050,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar! Lógica: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 5000);
-    console.log("✅ SISTEMA PRONTO - LÓGICA: ANÚNCIO → 2 MÚSICAS → ANÚNCIO → 2 MÚSICAS (ciclo infinito)");
+    console.log("✅ SISTEMA PRONTO");
 </script>
 </body>
 </html>
