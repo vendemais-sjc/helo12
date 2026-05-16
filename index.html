@@ -51,7 +51,6 @@
             z-index: 2;
         }
 
-        /* Player Container */
         .player-container {
             position: absolute;
             bottom: 30px;
@@ -183,7 +182,6 @@
             font-size: 1.5rem;
         }
 
-        /* Botões Flutuantes */
         .float-buttons {
             position: fixed;
             right: 15px;
@@ -217,7 +215,6 @@
         .btn-info { background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; padding: 12px; }
         .btn-bluetooth { background: #0082fc; }
 
-        /* Visualizer */
         .visualizer {
             position: fixed;
             bottom: 120px;
@@ -240,7 +237,6 @@
             height: 4px;
         }
 
-        /* Menu */
         .menu-btn {
             position: fixed;
             top: 15px;
@@ -451,7 +447,7 @@
 
 <div class="app">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="anun.mp4" type="video/mp4">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-tree-roots-on-the-ground-in-the-forest-42218-large.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
 
@@ -565,44 +561,10 @@
     let autoHideTimer = null;
     let progressInterval = null;
     let visualizerInterval = null;
+    let currentSongIndex = 0;
     
     const audio = document.getElementById('audioPlayer');
     const playerContainer = document.getElementById('playerContainer');
-    
-    // ==================== MÚSICAS (URLs FUNCIONAIS) ====================
-    const SONGS = [
- { id: 538, title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 539, title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 540, title: "Felipe Araújo e Thiaguinho - Espaçosa Demais", src: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 541, title: "Bokaloka - Duas paixões / Procurando alguém / Bye Bye", src: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 542, title: "Péricles - Me Apaixonei pela Pessoa Errada", src: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 543, title: "Desse Jeito - Desse Jeito / Ruim pra Mim", src: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 544, title: "Ferrugem - Telepatia (part. Thiaguinho)", src: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 545, title: "Délcio Luiz - Meu casamento / Refém do coração / Luz do desejo", src: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 546, title: "Até Que - Até Que Durou (Ao Vivo)", src: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 547, title: "Ludmilla - Falta de Mim", src: "LUDMILLA_Falta_de_Mim_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 548, title: "Belo - Transas (Ao Vivo)", src: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 549, title: "Ivete Sangalo - Ah, Como Eu Te Amei / Retalhos de Cetim / Ivete Clareou", src: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 550, title: "Mania - Mania de Você", src: "Mania_de_Mania_de_Voc__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 551, title: "Xande de Pilares - Defunto / Caguete / Malandro Não Vacila", src: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 552, title: "Kiko - Nem de Graça / Falando Segredo / Brilho de Cristal", src: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 553, title: "Marvvila e Ivete Sangalo - Você Não Vai Sofrer", src: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 554, title: "Rolezinho - Rolezinho (Grupo)", src: "Rolezinho_Rolezinho_Grupo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 555, title: "PaGGodin - L o Santana / Girassol / Uma Brasileira / Sombra Da Maldade", src: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 556, title: "Leandro Sapucahy - Naquela Mesa", src: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 557, title: "Sorriso Maroto - Meu Jeito de Ser / Que Se Chama Amor", src: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
-  { id: 558, title: "Pra Não - Pra Não Pensar Em Você (Ao Vivo)", src: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" }
-        
-    ];
-    
-    // ==================== ANÚNCIOS (MP3 LOCAIS) ====================
-    const ADS = [
-        { text: "📢 Ótica Heloísa! Armações com até 50% de desconto!", file: "anun1.mp3" },
-        { text: "📢 Promoção especial! Lentes com garantia de 1 ano!", file: "anun2.mp3" },
-        { text: "📢 Atendimento personalizado e entrega rápida!", file: "anun3.mp3" },
-        { text: "📢 Novas coleções chegaram! Venha conferir!", file: "anun4.mp3" },
-        { text: "📢 Compre 2 armações e ganhe desconto nas lentes!", file: "anun5.mp3" }
-    ];
     
     function closeModal(modalId) {
         document.getElementById(modalId).classList.remove('open');
@@ -697,36 +659,103 @@
         }
     }
     
+    // ==================== MÚSICAS (URLs FUNCIONAIS) ====================
+    const SONGS = [
+         { id: 538, title: "Thiago Martins - Onde Deus Possa Me Ouvir", src: "Thiago_Martins_Onde_Deus_Possa_Me_Ouvir_Esperando_Avi_es_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 539, title: "Leandro Sapucahy - Poxa / Disritmia", src: "LEANDRO_SAPUCAHY_Poxa_Disritmia_Espelho_Que_Nem_Antigamente__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 540, title: "Felipe Araújo e Thiaguinho - Espaçosa Demais", src: "Felipe_Ara_jo_Thiaguinho_Espa_osa_Demais_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 541, title: "Bokaloka - Duas paixões / Procurando alguém / Bye Bye", src: "Bokaloka_Duas_paix_es_Procurando_algu_m_Bye_Bye_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 542, title: "Péricles - Me Apaixonei pela Pessoa Errada", src: "Live_P_ricles_Me_Apaixonei_Pela_Pessoa_Errada_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 543, title: "Desse Jeito - Desse Jeito / Ruim pra Mim", src: "Desse_Jeito_Desse_Jeito_Ruim_pra_Mim_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 544, title: "Ferrugem - Telepatia (part. Thiaguinho)", src: "Ferrugem_Telepatia_part_Thiaguinho_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 545, title: "Délcio Luiz - Meu casamento / Refém do coração / Luz do desejo", src: "D_lcio_Luiz_Meu_casamento_Ref_m_do_cora_o_Luz_do_desejo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 546, title: "Até Que - Até Que Durou (Ao Vivo)", src: "At_Que_At_Que_Durou_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 547, title: "Ludmilla - Falta de Mim", src: "LUDMILLA_Falta_de_Mim_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 548, title: "Belo - Transas (Ao Vivo)", src: "Belo_Transas_Ao_Vivo_DVD_Belo_In_Concert_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 549, title: "Ivete Sangalo - Ah, Como Eu Te Amei / Retalhos de Cetim / Ivete Clareou", src: "Ivete_Sangalo_Ah_Como_Eu_Te_Amei_Retalhos_de_Cetim_Ivete_Clareou_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 550, title: "Mania - Mania de Você", src: "Mania_de_Mania_de_Voc__muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 551, title: "Xande de Pilares - Defunto / Caguete / Malandro Não Vacila", src: "Xande_de_Pilares_Defunto_Caguete_Malandro_N_o_Vacila_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 552, title: "Kiko - Nem de Graça / Falando Segredo / Brilho de Cristal", src: "Kiko_Nem_de_Gra_a_Falando_Segredo_Brilho_de_Cristal_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 553, title: "Marvvila e Ivete Sangalo - Você Não Vai Sofrer", src: "Marvvila_Ivete_Sangalo_Voc_N_o_Vai_Sofrer_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 554, title: "Rolezinho - Rolezinho (Grupo)", src: "Rolezinho_Rolezinho_Grupo_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 555, title: "PaGGodin - L o Santana / Girassol / Uma Brasileira / Sombra Da Maldade", src: "PaGGodin_L_o_Santana_Girassol_Uma_Brasileira_Sombra_Da_Maldade_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 556, title: "Leandro Sapucahy - Naquela Mesa", src: "Leandro_Sapucahy_Naquela_Mesa_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 557, title: "Sorriso Maroto - Meu Jeito de Ser / Que Se Chama Amor", src: "Meu_Jeito_De_Ser_Que_Se_Chama_De_Amor_Sorriso_Maroto_muzzik.m4a", genero: "SAMBA", tipo: "normal" },
+  { id: 558, title: "Pra Não - Pra Não Pensar Em Você (Ao Vivo)", src: "Pra_N_o_Pra_N_o_Pensar_Em_Voc_Ao_Vivo__muzzik.m4a", genero: "SAMBA", tipo: "normal" }
+      
+    ];
+    
+    // ==================== ANÚNCIOS (áudio de teste com tons) ====================
+    // Usando um gerador de tom simples via Web Audio para os anúncios
+    function playBeepAd(text) {
+        return new Promise((resolve) => {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            const ctx = new AudioContext();
+            const duration = 3;
+            const now = ctx.currentTime;
+            
+            // Criar beep simples
+            const oscillator = ctx.createOscillator();
+            const gain = ctx.createGain();
+            oscillator.connect(gain);
+            gain.connect(ctx.destination);
+            oscillator.frequency.value = 880;
+            gain.gain.value = 0.3;
+            
+            oscillator.start();
+            gain.gain.exponentialRampToValueAtTime(0.00001, now + duration);
+            oscillator.stop(now + duration);
+            
+            setTimeout(() => {
+                ctx.close();
+                resolve();
+            }, duration * 1000);
+        });
+    }
+    
+    const ADS = [
+        { text: "📢 Ótica Heloísa! Armações com até 50% de desconto!" },
+        { text: "📢 Promoção especial! Lentes com garantia de 1 ano!" },
+        { text: "📢 Venha nos visitar! A melhor qualidade em óculos!" },
+        { text: "📢 Consulta gratuita! Agende já seu horário!" },
+        { text: "📢 Ótica Heloísa - Sua visão merece o melhor!" }
+    ];
+    
     // ==================== TOCAR MÚSICA ====================
     function playRandomMusic() {
         if (!isActive || isAdPlaying) return;
         
         const randomIndex = Math.floor(Math.random() * SONGS.length);
-        const song = SONGS[randomIndex];
+        currentSongIndex = randomIndex;
+        const song = SONGS[currentSongIndex];
         
         document.getElementById('trackName').textContent = song.name;
-        document.getElementById('trackArtist').textContent = "🎧 Tocando agora";
+        document.getElementById('trackArtist').textContent = "🎧 Tocando agora • Música Ambiente";
         
         audio.src = song.url;
         audio.load();
         
-        audio.oncanplay = () => {
+        audio.oncanplaythrough = () => {
             audio.play().then(() => {
                 isPlaying = true;
                 document.getElementById('playPauseBtn').innerHTML = '<i class="fas fa-pause"></i>';
                 startProgressTimer();
                 startVisualizer();
                 updateStatus();
-            }).catch(err => console.log(err));
+            }).catch(err => {
+                console.log("Erro ao tocar:", err);
+                setTimeout(() => playRandomMusic(), 1000);
+            });
         };
         
         audio.onerror = () => {
+            console.log("Erro no áudio, tentando outra música...");
             setTimeout(() => playRandomMusic(), 1000);
         };
     }
     
     // ==================== TOCAR ANÚNCIO ====================
-    function playRandomAd() {
+    async function playRandomAd() {
         if (!isActive) return;
         
         isAdPlaying = true;
@@ -740,28 +769,20 @@
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        audio.src = ad.file;
-        audio.load();
+        // Pausar qualquer áudio atual
+        if (audio.src) {
+            audio.pause();
+        }
         
-        audio.oncanplay = () => {
-            audio.play().catch(err => console.log(err));
-        };
+        // Tocar beep como anúncio de exemplo
+        await playBeepAd(ad.text);
         
-        audio.onended = () => {
-            isAdPlaying = false;
-            document.getElementById('adToast').classList.remove('show');
-            musicCount = 0;
-            playRandomMusic();
-            updateStatus();
-        };
-        
-        audio.onerror = () => {
-            console.log("Erro no anúncio, tentando próximo...");
-            isAdPlaying = false;
-            document.getElementById('adToast').classList.remove('show');
-            musicCount = 0;
-            playRandomMusic();
-        };
+        // Fim do anúncio
+        isAdPlaying = false;
+        document.getElementById('adToast').classList.remove('show');
+        musicCount = 0;
+        playRandomMusic();
+        updateStatus();
     }
     
     // ==================== FIM DA MÚSICA ====================
@@ -845,6 +866,7 @@
             if (AudioContext) {
                 const ctx = new AudioContext();
                 await ctx.resume();
+                ctx.close();
             }
             
             isActive = true;
@@ -855,7 +877,7 @@
             showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
-            playRandomAd();
+            await playRandomAd();
             startVisualizer();
             
             const video = document.getElementById('bgVideo');
