@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Ótica Heloísa • Música Ambiente • Anúncios</title>
+    <title>Ótica Heloísa • Música Ambiente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -447,7 +447,7 @@
 
 <div class="app">
     <video id="bgVideo" class="video-bg" autoplay loop muted playsinline>
-        <source src="anun.mp4" type="video/mp4">
+        <source src="abc.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
 
@@ -536,12 +536,7 @@
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
             <p><strong>🔊 LÓGICA CORRETA:</strong></p>
-            <p>1º → ANÚNCIO</p>
-            <p>2º → MÚSICA 1</p>
-            <p>3º → MÚSICA 2</p>
-            <p>4º → ANÚNCIO</p>
-            <p>5º → MÚSICA 3</p>
-            <p>6º → MÚSICA 4...</p>
+            <p style="color: #25D366; font-weight: bold;">ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -558,12 +553,11 @@
     let isActive = false;
     let isPlaying = false;
     let isAdPlaying = false;
-    let musicCount = 0; // 0 = nenhuma música, 1 = 1ª música, 2 = 2ª música
+    let musicCount = 0; // Conta quantas músicas já tocaram (0, 1 ou 2)
     let isLoading = false;
     let autoHideTimer = null;
     let progressInterval = null;
     let visualizerInterval = null;
-    let currentSongIndex = 0;
     
     const audio = document.getElementById('audioPlayer');
     const playerContainer = document.getElementById('playerContainer');
@@ -601,7 +595,7 @@
             statusSpan.style.background = "rgba(255, 107, 107, 0.3)";
             statusSpan.style.borderLeftColor = "#ff6b6b";
         } else {
-            statusSpan.innerHTML = `<i class="fas fa-music"></i> MÚSICA ${musicCount}/2`;
+            statusSpan.innerHTML = `<i class="fas fa-music"></i> MÚSICA ${musicCount + 1}/2`;
             statusSpan.style.background = "rgba(37, 211, 102, 0.2)";
             statusSpan.style.borderLeftColor = "#25D366";
         }
@@ -697,8 +691,7 @@
         if (!isActive || isAdPlaying) return;
         
         const randomIndex = Math.floor(Math.random() * SONGS.length);
-        currentSongIndex = randomIndex;
-        const song = SONGS[currentSongIndex];
+        const song = SONGS[randomIndex];
         
         document.getElementById('trackName').textContent = song.title;
         document.getElementById('trackArtist').textContent = "🎧 Tocando agora • Música Ambiente";
@@ -713,7 +706,7 @@
                 startProgressTimer();
                 startVisualizer();
                 updateStatus();
-                console.log(`🎵 Tocando música ${musicCount}/2: ${song.title}`);
+                console.log(`🎵 Tocando música ${musicCount + 1}/2: ${song.title}`);
             }).catch(err => {
                 console.log("Erro ao tocar música:", err);
                 setTimeout(() => playRandomMusic(), 1000);
@@ -779,13 +772,13 @@
         };
     }
     
-    // ==================== FIM DA MÚSICA (LÓGICA CORRIGIDA) ====================
+    // ==================== FIM DA MÚSICA (LÓGICA CORRETA) ====================
     audio.onended = () => {
         if (isAdPlaying) return;
         
         if (isActive && isPlaying) {
-            musicCount++; // Incrementa: 1ª música = 1, 2ª música = 2
-            console.log(`🎵 Música finalizada. Agora musicCount = ${musicCount}`);
+            musicCount++; // 0->1 (primeira música), 1->2 (segunda música)
+            console.log(`🎵 Música finalizada. musicCount = ${musicCount}`);
             updateStatus();
             
             if (musicCount >= 2) {
@@ -908,7 +901,7 @@
             
             enterFullscreen();
             
-            showNotification("🎬 INICIANDO: 1º ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
+            showNotification("🎬 INICIANDO: ANÚNCIO → 2 MÚSICAS → ANÚNCIO...", 4000);
             
             musicCount = 0;
             playRandomAd(); // Começa com anúncio
@@ -1022,7 +1015,7 @@
     video.play().catch(e => console.log("Aguardando interação"));
     
     showNotification("🎬 Clique no botão verde para começar!", 4000);
-    console.log("✅ SISTEMA PRONTO - LÓGICA: Anúncio → 1ª Música → 2ª Música → Anúncio...");
+    console.log("✅ SISTEMA PRONTO - LÓGICA: ANÚNCIO → 2 MÚSICAS → ANÚNCIO → 2 MÚSICAS...");
 </script>
 </body>
 </html>
