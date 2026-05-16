@@ -536,7 +536,7 @@
         <h2>📘 Como Funciona</h2>
         <div style="text-align: left;">
             <p><strong>🔊 LÓGICA:</strong></p>
-            <p style="color: #25D366; font-weight: bold;">ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
+            <p style="color: #25D366; font-weight: bold; font-size: 1.1rem;">✅ ANÚNCIO → MÚSICA 1 → MÚSICA 2 → ANÚNCIO → MÚSICA 3 → MÚSICA 4...</p>
             <p style="margin-top: 10px;"><strong>🎮 GESTOS:</strong><br>
             Toque na tela = mostra/esconde controles<br>
             Deslizar ← → = trocar música<br>
@@ -553,11 +553,12 @@
     let isActive = false;
     let isPlaying = false;
     let isAdPlaying = false;
-    let musicCount = 0; // 0, 1, 2
+    let musicCount = 0; // 0 = nenhuma, 1 = primeira música, 2 = segunda música
     let isLoading = false;
     let autoHideTimer = null;
     let progressInterval = null;
     let visualizerInterval = null;
+    let adIndex = 0;
     
     const audio = document.getElementById('audioPlayer');
     const playerContainer = document.getElementById('playerContainer');
@@ -686,9 +687,7 @@
         { text: "📢 Promoção especial! Lentes com garantia de 1 ano! Não perca!", src: "anun2.mp3" }
     ];
     
-    let adIndex = 0;
-    
-    // ==================== TOCAR MÚSICA ====================
+    // ==================== FUNÇÃO PARA TOCAR MÚSICA ====================
     function playRandomMusic() {
         if (!isActive || isAdPlaying) return;
         
@@ -721,13 +720,15 @@
         };
     }
     
-    // ==================== TOCAR ANÚNCIO ====================
-    function playRandomAd() {
+    // ==================== FUNÇÃO PARA TOCAR ANÚNCIO ====================
+    function playAd() {
         if (!isActive) return;
         
         isAdPlaying = true;
         isPlaying = false;
-        updateStatus();
+        
+        stopVisualizer();
+        stopProgressTimer();
         
         const ad = ADS[adIndex % ADS.length];
         adIndex++;
@@ -737,7 +738,8 @@
         adToastText.innerHTML = `<i class="fas fa-bullhorn"></i> ${ad.text}`;
         adToast.classList.add('show');
         
-        console.log(`📢 Tocando ANÚNCIO: ${ad.text}`);
+        console.log(`📢 TOCANDO ANÚNCIO: ${ad.text}`);
+        updateStatus();
         
         audio.src = ad.src;
         audio.load();
@@ -745,22 +747,22 @@
         audio.oncanplaythrough = () => {
             audio.play().catch(err => {
                 console.log("Erro ao tocar anúncio:", err);
-                finishAd();
+                finalizarAnuncio();
             });
         };
         
         audio.onended = () => {
-            finishAd();
+            finalizarAnuncio();
         };
         
         audio.onerror = () => {
             console.log("Erro no arquivo de anúncio, pulando...");
-            finishAd();
+            finalizarAnuncio();
         };
     }
     
-    function finishAd() {
-        console.log("✅ ANÚNCIO finalizado! Voltando para as músicas...");
+    function finalizarAnuncio() {
+        console.log("✅ ANÚNCIO FINALIZADO! Voltando para as músicas...");
         isAdPlaying = false;
         document.getElementById('adToast').classList.remove('show');
         musicCount = 0; // RESETA para 0 (vai começar a contar as 2 músicas)
@@ -768,7 +770,7 @@
         updateStatus();
     }
     
-    // ==================== FIM DA MÚSICA (LÓGICA CORRETA) ====================
+    // ==================== FIM DA MÚSICA (LÓGICA PRINCIPAL) ====================
     audio.onended = () => {
         if (isAdPlaying) return;
         
@@ -778,17 +780,18 @@
             updateStatus();
             
             if (musicCount >= 2) {
-                // Já tocou 2 músicas, hora do anúncio
+                // Já tocou 2 músicas → TOCA ANÚNCIO
                 console.log("🔁🔁🔁 2 MÚSICAS TOCADAS! INICIANDO ANÚNCIO...");
-                playRandomAd();
+                playAd();
             } else {
-                // Ainda não completou 2 músicas, toca próxima música
+                // Ainda não completou 2 músicas → TOCA PRÓXIMA MÚSICA
                 console.log("🎵 Tocando PRÓXIMA música...");
                 playRandomMusic();
             }
         }
     };
     
+    // ==================== CONTROLES DO PLAYER ====================
     function pauseMusic() {
         if (audio.src && !audio.paused) {
             audio.pause();
@@ -857,11 +860,17 @@
                     optionalServices: ['battery_service']
                 });
                 showNotification(`✅ Conectado a: ${device.name || 'Dispositivo'}`, 3000);
+                console.log("Bluetooth conectado:", device);
             } catch(error) {
-                showNotification("❌ Conexão cancelada ou erro", 2000);
+                console.log("Erro Bluetooth:", error);
+                if (error.name === 'NotFoundError') {
+                    showNotification("❌ Nenhum dispositivo encontrado", 2000);
+                } else {
+                    showNotification("❌ Conexão cancelada", 2000);
+                }
             }
         } else {
-            showNotification("⚠️ Use Chrome para Bluetooth", 3000);
+            showNotification("⚠️ Use Chrome ou Edge para Bluetooth", 3000);
         }
     }
     
@@ -872,6 +881,7 @@
         showLoading(true);
         
         try {
+            // Ativar áudio para mobile
             const AudioContext = window.AudioContext || window.webkitAudioContext;
             if (AudioContext) {
                 const ctx = new AudioContext();
@@ -888,7 +898,7 @@
             
             musicCount = 0;
             adIndex = 0;
-            playRandomAd(); // Começa com anúncio
+            playAd(); // Começa com anúncio
             startVisualizer();
             
             const video = document.getElementById('bgVideo');
